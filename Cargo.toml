@@ -1,9 +1,11 @@
 [package]
 name = "cadrs"
 version = "0.1.0"
-edition = "2024"
-description = "cadsdk for rust"
+edition = "2021"
+description = "Cadsdk for rust"
 authors = ["Cadrs"]
+license = "Apache-2.0"
+repository = "https://github.com/Skyic/Cadrs"
 
 [lib]
 crate-type = ["lib", "cdylib", "staticlib"]
