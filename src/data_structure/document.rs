@@ -188,6 +188,28 @@ impl Document {
     }
 
     #[inline]
+    pub fn block_references(&self) -> &HashMap<ObjectId, BlockReference> {
+        &self.block_references
+    }
+
+    #[inline]
+    pub fn add_block_reference(&mut self, block_ref: BlockReference) -> ObjectId {
+        let id = block_ref.id().clone();
+        self.block_references.insert(id.clone(), block_ref);
+        id
+    }
+
+    #[inline]
+    pub fn get_block_reference(&self, block_ref_id: &ObjectId) -> Option<&BlockReference> {
+        self.block_references.get(block_ref_id)
+    }
+
+    #[inline]
+    pub fn block_reference_count(&self) -> usize {
+        self.block_references.len()
+    }
+
+    #[inline]
     pub fn model_space(&self) -> &ObjectId {
         &self.model_space
     }

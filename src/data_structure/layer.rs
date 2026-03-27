@@ -2,7 +2,7 @@ use uuid::Uuid;
 use std::collections::HashMap;
 use super::entity_id::ObjectId;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct Layer {
     id: ObjectId,
     name: String,
@@ -15,14 +15,14 @@ pub struct Layer {
     properties: HashMap<String, String>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub struct Color {
     pub red: u8,
     pub green: u8,
     pub blue: u8,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub enum LayerVisibility {
     Visible,
     Hidden,
@@ -43,5 +43,13 @@ impl Layer {
             plot_style: String::new(),
             properties: HashMap::new(),
         }
+    }
+    
+    pub fn id(&self) -> &ObjectId {
+        &self.id
+    }
+    
+    pub fn set_description(&mut self, description: String) {
+        self.description = description;
     }
 }

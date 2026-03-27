@@ -229,6 +229,85 @@ impl EllipseArc {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Rectangle {
+    pub corner1: Point,
+    pub corner2: Point,
+}
+
+impl Rectangle {
+    pub fn new(corner1: Point, corner2: Point) -> Self {
+        Self { corner1, corner2 }
+    }
+
+    pub fn width(&self) -> f64 {
+        (self.corner2.x - self.corner1.x).abs()
+    }
+
+    pub fn height(&self) -> f64 {
+        (self.corner2.y - self.corner1.y).abs()
+    }
+
+    pub fn area(&self) -> f64 {
+        self.width() * self.height()
+    }
+
+    pub fn perimeter(&self) -> f64 {
+        2.0 * (self.width() + self.height())
+    }
+
+    pub fn center(&self) -> Point {
+        Point {
+            x: (self.corner1.x + self.corner2.x) / 2.0,
+            y: (self.corner1.y + self.corner2.y) / 2.0,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Polygon {
+    pub vertices: Vec<Point>,
+}
+
+impl Polygon {
+    pub fn new(vertices: Vec<Point>) -> Self {
+        Self { vertices }
+    }
+
+    pub fn area(&self) -> f64 {
+        if self.vertices.len() < 3 {
+            return 0.0;
+        }
+        
+        let mut area = 0.0;
+        let n = self.vertices.len();
+        
+        for i in 0..n {
+            let j = (i + 1) % n;
+            area += self.vertices[i].x * self.vertices[j].y;
+            area -= self.vertices[j].x * self.vertices[i].y;
+        }
+        
+        area.abs() / 2.0
+    }
+
+    pub fn perimeter(&self) -> f64 {
+        if self.vertices.len() < 3 {
+            return 0.0;
+        }
+        
+        let mut perimeter = 0.0;
+        let n = self.vertices.len();
+        
+        for i in 0..n {
+            let j = (i + 1) % n;
+            perimeter += self.vertices[i].distance_to(self.vertices[j]);
+        }
+        
+        perimeter
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Polyline {
     pub vertices: Vec<Point>,
     pub is_closed: bool,

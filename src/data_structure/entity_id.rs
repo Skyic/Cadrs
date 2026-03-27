@@ -21,6 +21,12 @@ impl ObjectId {
     pub fn as_uuid(&self) -> &Uuid {
         &self.0
     }
+    
+    #[inline]
+    pub fn get_id(&self) -> u64 {
+        let bytes = self.0.as_bytes();
+        u64::from_ne_bytes(bytes[0..8].try_into().unwrap())
+    }
 }
 
 impl Default for ObjectId {

@@ -126,6 +126,16 @@ impl GridPoint {
         self.is_axis = true;
         self
     }
+
+    pub fn is_major(mut self, value: bool) -> Self {
+        self.is_major = value;
+        self
+    }
+
+    pub fn is_axis(mut self, value: bool) -> Self {
+        self.is_axis = value;
+        self
+    }
 }
 
 pub struct Grid {

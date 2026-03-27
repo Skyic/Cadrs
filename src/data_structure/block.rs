@@ -1,12 +1,13 @@
 use super::entity_id::ObjectId;
 use super::layer::Layer;
 use super::super::geometry::Point;
+use super::entity::Entity;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct Block {
     id: ObjectId,
     name: String,
-    entities: Vec<()>,
+    entities: Vec<Entity>,
     origin: Point,
     description: String,
 }
@@ -61,5 +62,30 @@ impl Block {
     #[inline]
     pub fn set_description(&mut self, description: String) {
         self.description = description;
+    }
+
+    #[inline]
+    pub fn add_entity(&mut self, entity: Entity) {
+        self.entities.push(entity);
+    }
+
+    #[inline]
+    pub fn get_entities(&self) -> &[Entity] {
+        &self.entities
+    }
+
+    #[inline]
+    pub fn get_entity(&self, id: &ObjectId) -> Option<&Entity> {
+        self.entities.iter().find(|e| e.id() == id)
+    }
+
+    #[inline]
+    pub fn remove_entity(&mut self, id: &ObjectId) -> bool {
+        if let Some(index) = self.entities.iter().position(|e| e.id() == id) {
+            self.entities.remove(index);
+            true
+        } else {
+            false
+        }
     }
 }
